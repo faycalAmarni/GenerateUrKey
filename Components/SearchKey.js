@@ -24,7 +24,6 @@ class SearchKey extends React.Component {
     return (
       <SearchBar
         placeholder="Type Here..."
-        lightTheme
         round
         onChangeText={text => this.searchFilterFunction(text)}
         autoCorrect={false}

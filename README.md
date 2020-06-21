@@ -1,87 +1,33 @@
-# Project Title
+# GenerateUrKey
 
-One Paragraph of project description goes here
+“GenerateUrKey” app is a key generator React native App that provides a product licensing key.
+
+The App follows modern application-design standards of having a centralized back-end (Django REST framework) with separate clients.
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+This app is a React native Expo project. After you have installed Expo onto your device you can build your own App copy .
 
-### Prerequisites
-
-What things you need to install the software and how to install them
-
+For that, clone this repository to your local machine and tap the following
 ```
-Give examples
+npm install
+npm start
 ```
 
-### Installing
 
-A step by step series of examples that tell you how to get a development env running
+## 📚 Documentation
 
-Say what the step will be
+<p>Learn about building and deploying universal apps <a aria-label="expo documentation" href="https://docs.expo.io">in our official docs!</a></p>
 
-```
-Give the example
-```
-
-And repeat
-
-```
-until finished
-```
-
-End with an example of getting some data out of the system or using it for a little demo
-
-## Running the tests
-
-Explain how to run the automated tests for this system
-
-### Break down into end to end tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-### And coding style tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-## Deployment
-
-Add additional notes about how to deploy this on a live system
-
-## Built With
-
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
-* [Maven](https://maven.apache.org/) - Dependency Management
-* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
-
-## Contributing
-
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
+- [Using the CLI](https://docs.expo.io/workflow/expo-cli/)
+- [App.json Configuration](https://docs.expo.io/workflow/configuration/)
+- [Building and Deploying apps](https://docs.expo.io/introduction/walkthrough/#building-and-deploying)
 
 ## Versioning
 
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
+We use [SemVer](http://semver.org/) for versioning.
 
-## Authors
-
-* **Billie Thompson** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
-
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
-
-## Acknowledgments
-
-* Hat tip to anyone whose code was used
-* Inspiration
-* etc
+This project is licensed under the MIT License [LICENSE]
