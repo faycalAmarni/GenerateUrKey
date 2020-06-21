@@ -1,12 +1,13 @@
 import React from 'react';
 import axios from 'axios';
 import moment from 'moment';
+import {LinearGradient} from 'expo-linear-gradient'
 import { FAB } from 'react-native-paper';
 import { connect } from 'react-redux'
-import { StyleSheet, Text, View, Button, TouchableOpacity, Alert, ActivityIndicator } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, ActivityIndicator, Animated, Dimensions } from 'react-native';
 import {SwipeableFlatList} from 'react-native-swipeable-flat-list';
 import {Icon} from "react-native-elements"
-import {generateProductKey, insertHistorique} from '../utils'
+import KeyItem from "./KeyItem"
 
 
 class Home extends React.Component {
@@ -15,7 +16,8 @@ class Home extends React.Component {
     super(props)
     this.state = {
       keys : [],
-      loading : true
+      loading : true,
+      positionLeft: new Animated.Value(Dimensions.get('window').width)
     }
   }
 
@@ -35,6 +37,12 @@ class Home extends React.Component {
 
   componentDidMount(){
     {this.getKeys()}
+    Animated.spring(
+      this.state.positionLeft,
+      {
+        toValue: 0
+      }
+    ).start()
   }
 
 
@@ -49,10 +57,33 @@ class Home extends React.Component {
    }
 
   render(){
-    console.log(this.state.loading);
     return (
       <View style={styles.container}>
-
+        {this._displayLoading()}
+        <SwipeableFlatList
+           data={this.props.reduxKeys}
+           renderItem={({ item }) => (
+                 <LinearGradient   colors={['#fff', '#01ab9d']} style={styles.item}>
+                   <View style= {styles.header_container}>
+                     <Text numberOfLines={1} ellipsizeMode="tail" style={styles.title_text}>{item.nom}</Text>
+                   </View>
+                   <View style= {styles.key_container}>
+                     <Text numberOfLines={2} ellipsizeMode="tail" style={styles.key_text}>{item.key}</Text>
+                   </View>
+                   <View style= {styles.date_container}>
+                       <Text style={styles.date_text}>
+                       {moment(new Date(item.date)).format('DD/MM/YYYY')}
+                       </Text>
+                   </View>
+                </LinearGradient>
+          )}
+           renderLeft={({ item }) => (
+               <Text style={{ width: 40 }}>Other</Text>
+           )}
+           renderRight={({ item }) => (
+              <Text style={{ width: 40 }}>Other</Text>
+           )}
+        />
           <FAB
              style={styles.fab}
              large
@@ -82,14 +113,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center'
   },
-  delete: {
-    width: 80,
-    backgroundColor: '#fff',
-    height: 80
-  },
+
   item: {
     flex :1,
-    height: 80,
+    height: 90,
     paddingLeft : 5,
     paddingRight : 5,
     marginTop: 4,

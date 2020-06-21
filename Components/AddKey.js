@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux'
-import {Modal,  TouchableOpacity, ActivityIndicator, FlatList, Text,  View, Alert, StyleSheet, Image } from 'react-native';
-import moment from 'moment'
+import Toast from 'react-native-simple-toast';
+import { TouchableOpacity,  Text,  View,  StyleSheet } from 'react-native';
 import {LinearGradient} from 'expo-linear-gradient'
 import { TextInput } from 'react-native-paper';
 import {insertKey} from '../utils'
@@ -23,6 +23,7 @@ class AddKey extends React.Component  {
        key: key,
      })
      .then(function (response) {
+         Toast.show('Key added successfully !');
          that.setState({name:""})
          const action = {type:'ADD_KEY', value:response.data}
          that.props.dispatch(action)
