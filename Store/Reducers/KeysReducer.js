@@ -28,6 +28,15 @@ function toggleKeys(state = initialState, action) {
         }
         return nextState || state
 
+    case 'UPDATE_KEY':
+
+        const rest = state.reduxKeys.filter((item) => item.id !==  action.value.id)
+        nextState = {
+          ...state,
+          reduxKeys: [...rest, action.value]
+        }
+        return nextState || state
+
     default:
         return state
   }

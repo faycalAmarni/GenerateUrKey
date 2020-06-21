@@ -11,7 +11,6 @@ import KeyItem from "./KeyItem"
 
 
 class Home extends React.Component {
-
   constructor(props){
     super(props)
     this.state = {
@@ -41,12 +40,7 @@ class Home extends React.Component {
   componentDidMount(){
     //Lancement de la procedure de recuperation des cles aprés le chargement du component
     {this.getKeys()}
-    Animated.spring(
-      this.state.positionLeft,
-      {
-        toValue: 0
-      }
-    ).start()
+
   }
 
   confirmDel = item => {
@@ -81,7 +75,6 @@ class Home extends React.Component {
     });
   }
 
-
   _displayLoading() {
      if (this.state.loading) {
        return (
@@ -114,10 +107,17 @@ class Home extends React.Component {
                 </LinearGradient>
           )}
            renderLeft={({ item }) => (
-               <Text style={{ width: 40 }}>Other</Text>
+             <View style = {styles.icon}>
+               <TouchableOpacity
+                 style={[styles.touchable, {backgroundColor:'green'}]}
+                 onPress={() => {this.props.navigation.navigate("update",item)}}
+               >
+                 <Icon name={"update"}  size={30} color="#fff" />
+               </TouchableOpacity>
+             </View>
            )}
            renderRight={({ item }) => (
-             <View style = {styles.delete}>
+             <View style = {styles.icon}>
                <TouchableOpacity
                  style={[styles.touchable, {backgroundColor:'red'}]}
                  onPress={() => {this.confirmDel(item)}}
@@ -151,7 +151,7 @@ const styles = StyleSheet.create({
     right: 0,
     bottom: 10,
   },
-  delete: {
+  icon: {
     width: 80,
     backgroundColor: '#fff',
     height: 80
