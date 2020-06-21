@@ -9,9 +9,20 @@ const Stack = createStackNavigator();
 const MainNav = () => {
     return (
       <NavigationContainer>
-        <Stack.Navigator>
+        <Stack.Navigator  screenOptions = {{
+
+                headerStyle : {
+                  backgroundColor : "#009387"
+                },
+                headerTintColor : "#fff",
+                headerTitleStyle : {
+                  fontWeight : 'bold',
+                  fontStyle : 'italic'
+                }
+
+              }} >
           <Stack.Screen name="Home" component={Home} />
-          <Stack.Screen name="Add" component={AddKey} />
+          <Stack.Screen name="Add" component={AddKey} options={{ title: 'Add a key' }}/>
         </Stack.Navigator>
       </NavigationContainer>
     );
