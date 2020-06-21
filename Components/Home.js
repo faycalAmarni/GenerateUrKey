@@ -87,7 +87,7 @@ class Home extends React.Component {
        return (
          <View >
            <ActivityIndicator size='large' style={styles.loading_container}/>
-        </View>
+         </View>
        )
      }
    }
@@ -97,7 +97,7 @@ class Home extends React.Component {
       <View style={styles.container}>
         {this._displayLoading()}
         <SwipeableFlatList
-           data={this.props.reduxKeys}
+           data={this.props.reduxKeys.sort((a,b) => b.date.localeCompare(a.date) )}
            renderItem={({ item }) => (
                  <LinearGradient   colors={['#fff', '#01ab9d']} style={styles.item}>
                    <View style= {styles.header_container}>
