@@ -7,7 +7,6 @@ import { connect } from 'react-redux'
 import { StyleSheet, Text, View, TouchableOpacity, ActivityIndicator,Alert, Animated, Dimensions } from 'react-native';
 import {SwipeableFlatList} from 'react-native-swipeable-flat-list';
 import {Icon, SearchBar} from "react-native-elements"
-import KeyItem from "./KeyItem"
 
 
 class SearchKey extends React.Component {
