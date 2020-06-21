@@ -76,7 +76,7 @@ class AddKey extends React.Component  {
                 <LinearGradient   colors={['#08d4c4', '#01ab9d']}   style={styles.signIn}  >
                     <Text style={[styles.textSign, {
                         color:'#fff'
-                    }]}>Confirmer</Text>
+                    }]}>Generate</Text>
                 </LinearGradient>
             </TouchableOpacity>
         </View>
