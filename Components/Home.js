@@ -4,7 +4,7 @@ import moment from 'moment';
 import {LinearGradient} from 'expo-linear-gradient'
 import { FAB } from 'react-native-paper';
 import { connect } from 'react-redux'
-import { StyleSheet, Text, View, TouchableOpacity, ActivityIndicator, Animated, Dimensions } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, ActivityIndicator,Alert, Animated, Dimensions } from 'react-native';
 import {SwipeableFlatList} from 'react-native-swipeable-flat-list';
 import {Icon} from "react-native-elements"
 import KeyItem from "./KeyItem"
@@ -22,10 +22,13 @@ class Home extends React.Component {
   }
 
   getKeys = () => {
-    var self = this;
+    //Récuperer les clés stockéées dans la base de données
+    var self = this;  //Eviter les soucis du dataBinding
     axios.get('https://api-test-key-generator.herokuapp.com/api/Keys/')
      .then(function (response) {
+       //sauvegarder les données principalement dans le state "keys"
        self.setState({keys : response.data, loading:false})
+       //le chargement initial du state global "reduxKeys"
        const action = {type:'FIRST_INSERT', value:response.data}
         self.props.dispatch(action)
     })
@@ -36,6 +39,7 @@ class Home extends React.Component {
   }
 
   componentDidMount(){
+    //Lancement de la procedure de recuperation des cles aprés le chargement du component
     {this.getKeys()}
     Animated.spring(
       this.state.positionLeft,
@@ -43,6 +47,38 @@ class Home extends React.Component {
         toValue: 0
       }
     ).start()
+  }
+
+  confirmDel = item => {
+    //Demander à l'utilisateur de confirmer la suppression
+    Alert.alert(
+       "Supprimer cette key ?",
+       "La suppression est irréversible",
+       [
+         {
+           text: "ANNULER",
+           onPress: () => console.log("Cancel Pressed"),
+           style: "cancel"
+         },
+         { text: "SUPPRIMER", onPress: () => {this.deleteKey(item)} }
+       ],
+       { cancelable: false }
+   );
+  }
+
+  deleteKey = key => {
+    //Suppression de la clé selectionnée aprés la confirmation de l'utilisateur
+    const url = "https://api-test-key-generator.herokuapp.com/api/Keys/"+key.id+"/"
+    let that = this
+    axios.delete(url)
+    .then(function (response) {
+      console.log("Succes");
+      const action = {type:'DELETE_KEY', value:key}
+      that.props.dispatch(action)
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
   }
 
 
@@ -81,7 +117,14 @@ class Home extends React.Component {
                <Text style={{ width: 40 }}>Other</Text>
            )}
            renderRight={({ item }) => (
-              <Text style={{ width: 40 }}>Other</Text>
+             <View style = {styles.delete}>
+               <TouchableOpacity
+                 style={[styles.touchable, {backgroundColor:'red'}]}
+                 onPress={() => {this.confirmDel(item)}}
+               >
+                 <Icon name={"delete"}  size={30} color="#fff" />
+               </TouchableOpacity>
+             </View>
            )}
         />
           <FAB
@@ -107,6 +150,11 @@ const styles = StyleSheet.create({
     margin: 16,
     right: 0,
     bottom: 10,
+  },
+  delete: {
+    width: 80,
+    backgroundColor: '#fff',
+    height: 80
   },
   loading_container: {
 
