@@ -6,46 +6,49 @@ import { FAB } from 'react-native-paper';
 import { connect } from 'react-redux'
 import { StyleSheet, Text, View, TouchableOpacity, ActivityIndicator,Alert, Animated, Dimensions } from 'react-native';
 import {SwipeableFlatList} from 'react-native-swipeable-flat-list';
-import {Icon} from "react-native-elements"
+import {Icon, SearchBar} from "react-native-elements"
 import KeyItem from "./KeyItem"
 
 
-class Home extends React.Component {
+class SearchKey extends React.Component {
   constructor(props){
+    const keys = props.route.params
     super(props)
-    this.props.navigation.setOptions({
-        headerRight: () => <Icon name="search" size={30} color="#fff" iconStyle={{marginRight:7}}
-                            onPress={() => this.props.navigation.navigate("Search",this.state.keys)}  />
-      });
     this.state = {
-      keys : [],
-      loading : true,
-      positionLeft: new Animated.Value(Dimensions.get('window').width)
+      keys : keys,
+      value : ""
     }
+    this.arrayholder = keys;
   }
 
-  getKeys = () => {
-    //Récuperer les clés stockéées dans la base de données
-    var self = this;  //Eviter les soucis du dataBinding
-    axios.get('https://api-test-key-generator.herokuapp.com/api/Keys/')
-     .then(function (response) {
-       //sauvegarder les données principalement dans le state "keys"
-       self.setState({keys : response.data, loading:false})
-       //le chargement initial du state global "reduxKeys"
-       const action = {type:'FIRST_INSERT', value:response.data}
-        self.props.dispatch(action)
-    })
-    .catch(function (error) {
-       alert("error get Keys");
+  renderHeader = () => {
+    return (
+      <SearchBar
+        placeholder="Type Here..."
+        lightTheme
+        round
+        onChangeText={text => this.searchFilterFunction(text)}
+        autoCorrect={false}
+        value={this.state.value}
+      />
+    );
+  };
+
+  searchFilterFunction = text => {
+    this.setState({
+      value: text,
+    });
+    const newData = this.arrayholder.filter(item => {
+      const itemData = item.nom.toLowerCase();
+
+      const textData = text.toLowerCase();
+
+      return itemData.indexOf(textData) > -1;
     });
 
-  }
+    this.setState({ keys: newData });
+  };
 
-  componentDidMount(){
-    //Lancement de la procedure de recuperation des cles aprés le chargement du component
-    {this.getKeys()}
-
-  }
 
   confirmDel = item => {
     //Demander à l'utilisateur de confirmer la suppression
@@ -90,11 +93,13 @@ class Home extends React.Component {
    }
 
   render(){
+    console.log(this.state);
     return (
       <View style={styles.container}>
-        {this._displayLoading()}
+
         <SwipeableFlatList
-           data={this.props.reduxKeys.sort((a,b) => b.date.localeCompare(a.date) )}
+           data={this.state.keys.sort((a,b) => b.date.localeCompare(a.date) )}
+           ListHeaderComponent={this.renderHeader}
            renderItem={({ item }) => (
                  <LinearGradient   colors={['#fff', '#01ab9d']} style={styles.item}>
                    <View style= {styles.header_container}>
@@ -131,12 +136,6 @@ class Home extends React.Component {
              </View>
            )}
         />
-          <FAB
-             style={styles.fab}
-             large
-             icon="plus"
-             onPress={() => {this.props.navigation.navigate("Add")}}
-           />
 
       </View>
     );
@@ -240,4 +239,4 @@ const mapStateToProps = (state) =>  {
   }
 }
 
-export default connect(mapStateToProps)(Home)
+export default connect(mapStateToProps)(SearchKey)
