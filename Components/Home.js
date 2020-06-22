@@ -9,10 +9,10 @@ import {SwipeableFlatList} from 'react-native-swipeable-flat-list';
 import {Icon} from "react-native-elements"
 
 
-
 class Home extends React.Component {
   constructor(props){
     super(props)
+    //Set the home navigation header by adding the search icon
     this.props.navigation.setOptions({
         headerRight: () => <Icon name="search" size={30} color="#fff" iconStyle={{marginRight:7}}
                             onPress={() => this.props.navigation.navigate("Search",this.state.keys)}  />
@@ -25,13 +25,13 @@ class Home extends React.Component {
   }
 
   getKeys = () => {
-    //Récuperer les clés stockéées dans la base de données
+    //Recover keys stored in the DB
     var self = this;  //Eviter les soucis du dataBinding
     axios.get('https://api-test-key-generator.herokuapp.com/api/Keys/')
      .then(function (response) {
-       //sauvegarder les données principalement dans le state "keys"
+       //save server response into state "keys"
        self.setState({keys : response.data, loading:false})
-       //le chargement initial du state global "reduxKeys"
+       //Initial loading of global state "reduxKeys"
        const action = {type:'FIRST_INSERT', value:response.data}
         self.props.dispatch(action)
     })
@@ -42,13 +42,13 @@ class Home extends React.Component {
   }
 
   componentDidMount(){
-    //Lancement de la procedure de recuperation des cles aprés le chargement du component
+    //Launch of the key loading procedure after loading the component
     {this.getKeys()}
 
   }
 
   confirmDel = item => {
-    //Demander à l'utilisateur de confirmer la suppression
+    //Ask user to confirm delete key operation
     Alert.alert(
        "Supprimer cette key ?",
        "La suppression est irréversible",
@@ -65,12 +65,13 @@ class Home extends React.Component {
   }
 
   deleteKey = key => {
-    //Suppression de la clé selectionnée aprés la confirmation de l'utilisateur
+    //Delete the selected key after user confirmation
     const url = "https://api-test-key-generator.herokuapp.com/api/Keys/"+key.id+"/"
     let that = this
     axios.delete(url)
     .then(function (response) {
       console.log("Succes");
+      //delete key from redux variable
       const action = {type:'DELETE_KEY', value:key}
       that.props.dispatch(action)
     })
@@ -205,7 +206,7 @@ const styles = StyleSheet.create({
   },
   key_text : {
     fontWeight : 'bold',
-    fontSize : 14,
+    fontSize : 16,
     color: '#666666',
     textAlign : 'center',
   },

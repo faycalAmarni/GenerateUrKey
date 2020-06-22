@@ -17,14 +17,17 @@ class AddKey extends React.Component  {
   }
 
   insertKey = (name, key) => {
-     let that = this
+    //Insert a new key in data base
+     let that = this //Avoiding data binding
      axios.post('https://api-test-key-generator.herokuapp.com/api/Keys/', {
        nom: name,
        key: key,
      })
      .then(function (response) {
          Toast.show('Key added successfully !');
+         //Reset textInput value
          that.setState({name:""})
+         //Add the new key to the redux variable
          const action = {type:'ADD_KEY', value:response.data}
          that.props.dispatch(action)
      })
@@ -38,6 +41,7 @@ class AddKey extends React.Component  {
      }
 
   generateProductKey = () => {
+    //Generate a random product Key
      var tokens = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
        chars = 5,
        segments = 4,

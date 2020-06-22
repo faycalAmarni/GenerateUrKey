@@ -21,6 +21,7 @@ class SearchKey extends React.Component {
   }
 
   renderHeader = () => {
+    //Set the SwipeableFlatList header by adding a searchBar TextInput
     return (
       <SearchBar
         placeholder="Type Here..."
@@ -33,6 +34,7 @@ class SearchKey extends React.Component {
   };
 
   searchFilterFunction = text => {
+    //retrieve the searchBar value and generate a new data based on it (search by name)
     this.setState({
       value: text,
     });
@@ -49,7 +51,7 @@ class SearchKey extends React.Component {
 
 
   confirmDel = item => {
-    //Demander à l'utilisateur de confirmer la suppression
+    //Ask user to confirm delete key operation
     Alert.alert(
        "Supprimer cette key ?",
        "La suppression est irréversible",
@@ -66,7 +68,7 @@ class SearchKey extends React.Component {
   }
 
   deleteKey = key => {
-    //Suppression de la clé selectionnée aprés la confirmation de l'utilisateur
+    //Delete the selected key after user confirmation
     const url = "https://api-test-key-generator.herokuapp.com/api/Keys/"+key.id+"/"
     let that = this
     axios.delete(url)
@@ -91,7 +93,6 @@ class SearchKey extends React.Component {
    }
 
   render(){
-    console.log(this.state);
     return (
       <View style={styles.container}>
 
